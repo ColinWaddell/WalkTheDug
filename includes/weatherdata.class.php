@@ -131,7 +131,7 @@ class weatherData {
 						$index=0;
 						for ($id = $current_id; $id < $current_id + $current_length; $id++)
 									$this->next_rain_free_spell->addObject($index++, 
-																		array("datetime" => $this->rain_data->data[$id]->datetime, 
+																		array("datetime" => $this->rain_data->data[$id]->datetime->format('Y-m-d H:i:s'), 
 																		"pop" => $this->rain_data->data[$id]->pop));
 					}
 
@@ -148,7 +148,7 @@ class weatherData {
 		$index=0;
 		for ($id = $longest_id; $id < $longest_id + $longest_length; $id++)
 					$this->longest_rain_free_spell->addObject($index++, 
-														array("datetime" => $this->rain_data->data[$id]->datetime, 
+														array("datetime" => $this->rain_data->data[$id]->datetime->format('Y-m-d H:i:s'), 
 														"pop" => $this->rain_data->data[$id]->pop));
 
 	}
@@ -194,7 +194,7 @@ class weatherData {
 						$index=0;
 						for ($id = $current_id; $id < $current_id + $current_length; $id++)
 									$this->next_rain_spell->addObject($index++, 
-																		array("datetime" => $this->rain_data->data[$id]->datetime, 
+																		array("datetime" => $this->rain_data->data[$id]->datetime->format('Y-m-d H:i:s'), 
 																		"pop" => $this->rain_data->data[$id]->pop));
 						
 																		
@@ -213,7 +213,7 @@ class weatherData {
 		$index=0;
 		for ($id = $longest_id; $id < $longest_id + $longest_length; $id++)
 					$this->longest_rain_spell->addObject($index++, 
-													array("datetime" => $this->rain_data->data[$id]->datetime, 
+													array("datetime" => $this->rain_data->data[$id]->datetime->format('Y-m-d H:i:s'), 
 													"pop" => $this->rain_data->data[$id]->pop));
 
 	}

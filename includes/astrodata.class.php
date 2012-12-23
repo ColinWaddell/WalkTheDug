@@ -30,8 +30,6 @@ class astroData {
 		$this->sunrise_time = new DateTime($this->astro_data->moon_phase->sunrise->hour.':'.$this->astro_data->moon_phase->sunrise->minute);
 		if ($this->current_time > $this->sunrise_time)
 			$this->sunrise_time->modify('+1 day');
-		
-		print_r($this->sunrise_time);
 			
 		$this->sunset_time = new DateTime($this->astro_data->moon_phase->sunset->hour.':'.$this->astro_data->moon_phase->sunset->minute);
 		if ($this->current_time > $this->sunset_time)
@@ -72,14 +70,14 @@ class astroData {
 		{
 			$status = 0; //if it's daylight retrun "Good"
 
-			if ($this->sunset_interval < (new DateInterval("PT2H")))
+			if ($this->sunset_interval < 2)
 				$status = 2; //if getting dark soon return "Good->Bad"
 		}
 		else
 		{
 			$status = 1; //if dark return "Bad"
 
-			if ($this->sunrise_interval < (new DateInterval("PT2H")))
+			if ($this->sunrise_interval < 2)
 				$status = 3; //if getting light soon return "Bad->Good"
 		}
 
