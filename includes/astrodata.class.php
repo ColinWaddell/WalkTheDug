@@ -48,14 +48,24 @@ class astroData {
 		$this->sunrise_interval = DiffInHours($this->sunrise_time, $this->current_time);
 		$this->sunset_interval = DiffInHours($this->sunset_time, $this->current_time);
 
-	
+		
+		
 		$this->astroStatus();
 				
 	}
 	
 	public function json()
-	{
-		return json_encode ($this);
+	{	
+		return json_encode ( 
+					array (
+						"current_time" => $this->current_time->format('Y-m-d H:i:s'),
+						"sunrise_time" => $this->sunrise_time->format('Y-m-d H:i:s'),
+						"sunset_time" => $this->sunset_time->format('Y-m-d H:i:s'),
+						"sunrise_interval" => $this->sunrise_interval,
+						"sunset_interval" => $this->sunset_interval,
+						"daylight" => $this->daylight,
+						"astro_status" => $this->astroStatus
+					));
 	}
 	
 	private function astroStatus()

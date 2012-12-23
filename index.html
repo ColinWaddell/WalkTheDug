@@ -13,6 +13,9 @@
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="js/wtd.js"></script>
 		<script src="js/jquery.cookie.js"></script>
+		
+		<script type="text/javascript" src="js/jquery.jqplot.min.js"></script>
+		<script type="text/javascript" src="js/jqplot.dateAxisRenderer.min.js"></script>
 
 
 		<link rel="stylesheet" href="css/wtd.css" type="text/css" media="all" />
@@ -49,9 +52,53 @@
 					</section>
 		
 					<section id="why">
-			
+						<h2><a href="#" id="why-link">more info</a></h2>
+						<div id="why-data">
+							<div class="row">
+								<div class="column grid_2">
+									<div class="row">
+										<div class="column grid_2">
+											<br />
+											<h3>The conditions are based off of the time of day, and the chance of rain</h3>
+										</div>
+									</div>
+									<div class="row">
+										<br />
+										<div class="column grid_1">
+											<p>Time</p>		
+										</div>
+										<div class="column grid_1">
+											<p><span id="current_time"></span></p>
+										</div>
+									</div>
+									<div class="row">
+										<div class="column grid_1">
+											<p>Sunset</p>		
+										</div>
+										<div class="column grid_1">
+											<p><span id="sunset_time"></span></p>
+										</div>
+									</div>
+									<div class="row">
+										<div class="column grid_1">
+											<p>Sunrise</p>	
+										</div>
+										<div class="column grid_1">
+											<p><span id="sunrise_time"></span></p>
+										</div>
+									</div>
+								</div>
+
+								<div class="column grid_4">
+									<div id="raingraph" class="graph">
+									</div>								
+								</div>
+							</div>
+							
+						</div>
+
 					</section>
-				
+									
 				</div> <!-- results -->
 			
 				<section id="location-editor">
@@ -69,7 +116,8 @@
 				</section> <!-- location editor -->
 		
 				<footer>
-			
+					<p>Walk the dog was made by <a href="http://colinwaddell.com">ColinWaddell.com</a></p>
+					<p>The source code can be found <a href="https://github.com/ColinWaddell/WalkTheDog">here</a>.<p>
 				</footer>
 			</div>
 		</div> <!-- wrapper -->

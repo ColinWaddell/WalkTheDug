@@ -11,6 +11,11 @@ $(document).ready(function(){
       		function (jsonWeather)
       		{
         		$("#message").html(jsonWeather.message);	
+        		$('#why').show("fast");
+        		$("#current_time").html(jsonWeather.astroData.current_time.match(/\ (.*):/)[1])
+        		$("#sunset_time").html(jsonWeather.astroData.sunset_time.match(/\ (.*):/)[1])
+        		$("#sunrise_time").html(jsonWeather.astroData.sunrise_time.match(/\ (.*):/)[1])
+        		DrawRainGraph(jsonWeather.weatherData.raw);
       		})
       		.error(WTDWeatherError);
 	  }
@@ -27,7 +32,65 @@ $(document).ready(function(){
     {
          $("#user-location").html("Select");
     }
-  
+
+    var ShowLocationEditor = function()
+    {
+        $('#location-text').val($('#user-location').html().replace("<br>", ", "));
+        UpdateLocationBox();
+        $('#location-editor').show("fast");
+        $('#location-text').attr('selected', 'selected').focus();
+        $('#results').hide("fast");
+    }
+
+    var location_text_updated = 0;
+    var location_text_working = 0;
+
+    var UpdateLocationBox = function()
+    {
+      if (location_text_updated && !location_text_working)
+      {
+        location_text_updated = 0;
+        location_text_working = 1;
+        clearInterval(location_editor_timer);
+        location_editor_timer = null;
+        var location = $('#location-text').val();
+        if (location.length > 3)
+        {
+          $.getJSON('includes/location_list.php?location=' + encodeURIComponent(location), "",
+             function (jsonLocationList)
+             {
+               $('#location-list').empty();
+
+               if (jsonLocationList.results.length)
+                    $('#update-button').removeAttr("disabled");       
+               else $('#update-button').attr("disabled", "disabled");
+
+               $.each(jsonLocationList.results, function(index, value){
+                 $('#location-list').append($('<option>', { index : value.name })
+                             .text(value.name));
+               })
+
+                $('#location-list').css({'visibility':'visible'});
+                location_text_working = 0;
+
+           }).error( function() {location_text_working = 0;} );
+        }
+        else{
+         $('#location-list').empty();
+         $('#location-list').css({ 'visibility':'hidden'});
+         $('#update-button').attr("disabled", "disabled");
+         location_text_working = 0;
+        }  
+      }
+
+    }
+
+    var LocationTextUpdated = function(){
+      if (location_editor_timer==null)
+        location_editor_timer = window.setInterval(UpdateLocationBox, 500);
+
+      location_text_updated = 1;
+    }  
   
   var Run = function(_city, _region)
   {
@@ -79,67 +142,45 @@ $(document).ready(function(){
       $('#user-location').html(array[0] + "<br>" + array[1]);
       $("#message").html('Loading weather data.')
       Run(array[0],array[1]);
-      $('#location-editor').hide();
-      $('#results').show();
+      $('#location-editor').hide("fast");
+      $('#results').show("fast");
     }
-  }
-
-  var ShowLocationEditor = function()
-  {
-      $('#location-text').val($('#user-location').html().replace("<br>", ", "));
-      UpdateLocationBox();
-      $('#location-editor').show();
-      $('#location-text').attr('selected', 'selected').focus();
-      $('#results').hide();
-  }
-
-  var location_text_updated = 0;
-  var location_text_working = 0;
-
-  var UpdateLocationBox = function()
-  {
-    if (location_text_updated && !location_text_working)
-    {
-      location_text_updated = 0;
-      location_text_working = 1;
-      clearInterval(location_editor_timer);
-      location_editor_timer = null;
-      var location = $('#location-text').val();
-      if (location.length > 3)
-      {
-        $.getJSON('includes/location_list.php?location=' + encodeURIComponent(location), "",
-           function (jsonLocationList)
-           {
-             $('#location-list').empty();
-
-             if (jsonLocationList.results.length)
-                  $('#update-button').removeAttr("disabled");       
-             else $('#update-button').attr("disabled", "disabled");
-
-             $.each(jsonLocationList.results, function(index, value){
-               $('#location-list').append($('<option>', { index : value.name })
-                           .text(value.name));
-             })
-
-              $('#location-list').css({'visibility':'visible'});
-              location_text_working = 0;
-
-         }).error( function() {location_text_working = 0;} );
-      }
-      else{
-       $('#location-list').empty();
-       $('#location-list').css({ 'visibility':'hidden'});
-       location_text_working = 0;
-      }  
-    }
-    
   }
   
-  var LocationTextUpdated = function(){
-    if (location_editor_timer==null)
-      location_editor_timer = window.setInterval(UpdateLocationBox, 500);
+  var rain_graph;
+  
+  var DrawRainGraph = function(_weatherdata)
+  {
+    var data = [];
+    $.each(_weatherdata, function(index, value){
+       data.push([value.prettytime, parseInt(value.pop)]);
+     });
     
-    location_text_updated = 1;
+    
+    rain_graph = $.jqplot('raingraph', [data], {
+      title:'% Chance of rain',
+      grid:
+        {
+          background: '#FFF',
+          shadow: false,
+          borderWidth: 0
+        },
+      axes:
+        {
+          xaxis:
+          {
+            renderer:$.jqplot.DateAxisRenderer, 
+            tickOptions:{formatString:'%H:%I'},
+            numberTicks:5
+          }
+        },
+      series:[{
+        lineWidth:1, 
+        markerOptions:{show: false},  
+        rendererOptions: {
+            smooth: true
+        }}]
+    });
   }
   
   $("#location-text")
@@ -186,7 +227,16 @@ $(document).ready(function(){
     .attr("disabled", "disabled")
     .click(Update);
   $('#hide-button')
-    .click(function(){$('#location-editor').hide(), $('#results').show();});
+    .click(function(){$('#location-editor').hide("fast"), $('#results').show("fast");});
+    
+  $('#why-link').click(
+    function(){ 
+      if($('#why-data').css('display')=="none")
+      {
+        $("#why-data").show("fast");
+        rain_graph.draw();
+      }else $("#why-data").hide("fast");
+    });
   Run();
   
   var location_editor_timer = window.setInterval(UpdateLocationBox, 500);

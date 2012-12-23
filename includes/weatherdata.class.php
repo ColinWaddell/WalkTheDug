@@ -27,12 +27,14 @@ class rainDataArray extends ArrayObject{
 class rainData { 
     public $index;
     public $pop; 
+	 public $prettytime;
 	 public $datetime;
     
     function __construct($_index, $_data){ 
         $this->index = $_index; 
         $this->pop = $_data["pop"];
 		  $this->datetime = $_data["datetime"]; 
+		  $this->prettytime = $this->datetime->format('Y-m-d H:i:s');
     } 
     function printObject() { 
         print_r($this); 
@@ -89,7 +91,8 @@ class weatherData {
 						"next_rain_free_spell" => $this->next_rain_free_spell->data,
 						"currently_raining" => $this->currently_raining,
 						"next_rain_spell" => $this->next_rain_spell->data,
-						"longest_rain_spell" => $this->longest_rain_spell->data
+						"longest_rain_spell" => $this->longest_rain_spell->data,
+						"raw" => $this->rain_data->data
 					));
 //				return json_encode ( $this->longest_rain_free_spell );
 	}
@@ -134,7 +137,7 @@ class weatherData {
 						$index=0;
 						for ($id = $current_id; $id < $current_id + $current_length; $id++)
 									$this->next_rain_free_spell->addObject($index++, 
-																		array("datetime" => $this->rain_data->data[$id]->datetime->format('Y-m-d H:i:s'), 
+																		array("datetime" => $this->rain_data->data[$id]->datetime, 
 																		"pop" => $this->rain_data->data[$id]->pop));
 					}
 
@@ -150,9 +153,13 @@ class weatherData {
 		
 		$index=0;
 		for ($id = $longest_id; $id < $longest_id + $longest_length; $id++)
+		{
 					$this->longest_rain_free_spell->addObject($index++, 
-														array("datetime" => $this->rain_data->data[$id]->datetime->format('Y-m-d H:i:s'), 
+														array("datetime" => $this->rain_data->data[$id]->datetime, 
 														"pop" => $this->rain_data->data[$id]->pop));
+														
+			
+		}
 
 	}
 	
@@ -197,7 +204,7 @@ class weatherData {
 						$index=0;
 						for ($id = $current_id; $id < $current_id + $current_length; $id++)
 									$this->next_rain_spell->addObject($index++, 
-																		array("datetime" => $this->rain_data->data[$id]->datetime->format('Y-m-d H:i:s'), 
+																		array("datetime" => $this->rain_data->data[$id]->datetime, 
 																		"pop" => $this->rain_data->data[$id]->pop));
 						
 																		
@@ -216,7 +223,7 @@ class weatherData {
 		$index=0;
 		for ($id = $longest_id; $id < $longest_id + $longest_length; $id++)
 					$this->longest_rain_spell->addObject($index++, 
-													array("datetime" => $this->rain_data->data[$id]->datetime->format('Y-m-d H:i:s'), 
+													array("datetime" => $this->rain_data->data[$id]->datetime, 
 													"pop" => $this->rain_data->data[$id]->pop));
 
 	}
