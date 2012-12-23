@@ -33,6 +33,7 @@ $(document).ready(function(){
   {
     if(_city && _region)
     {
+      // Save preference
       $.cookie('walkthedog_city', _city);
       $.cookie('walkthedog_region', _region);
       processWeatherData(_city, _region);
@@ -47,9 +48,16 @@ $(document).ready(function(){
 
                $("#user-location").html(jsonLocation.city+"<br>"+jsonLocation.region);
 
-               $.cookie('walkthedog_city', jsonLocation.city);
-               $.cookie('walkthedog_region', jsonLocation.region);
-               processWeatherData(jsonLocation.city, jsonLocation.region);
+               if (jsonLocation.region && jsonLocation.city)
+               {
+                 $.cookie('walkthedog_city', jsonLocation.city);
+                 $.cookie('walkthedog_region', jsonLocation.region);
+                 processWeatherData(jsonLocation.city, jsonLocation.region);
+               }
+               else
+               {
+                 $("#user-location").html("Select your location");
+               }
 
            }).error(WTDLocationError);    
        }else{
