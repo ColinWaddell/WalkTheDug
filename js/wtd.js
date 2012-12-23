@@ -85,32 +85,52 @@ $(document).ready(function(){
       $('#results').hide();
   }
 
+  var location_text_updated = 0;
+  var location_text_working = 0;
+
   var UpdateLocationBox = function()
   {
-    var location = $('#location-text').val();
-    if (location.length > 3)
+    if (location_text_updated && !location_text_working)
     {
-      $.getJSON('includes/location_list.php?location=' + location, "",
-         function (jsonLocationList)
-         {
-           $('#location-list').empty();
-           
-           if (jsonLocationList.results.length)
-                $('#update-button').removeAttr("disabled");       
-           else $('#update-button').attr("disabled", "disabled");
-           
-           $.each(jsonLocationList.results, function(index, value){
-             $('#location-list').append($('<option>', { index : value.name })
-                         .text(value.name));
-           })
-           
-       }).error( function() {console.log("error with json location autocomplete");} );
+      location_text_updated = 0;
+      location_text_working = 1;
+      var location = $('#location-text').val();
+      if (location.length > 3)
+      {
+        $.getJSON('includes/location_list.php?location=' + location, "",
+           function (jsonLocationList)
+           {
+             $('#location-list').empty();
+
+             if (jsonLocationList.results.length)
+                  $('#update-button').removeAttr("disabled");       
+             else $('#update-button').attr("disabled", "disabled");
+
+             $.each(jsonLocationList.results, function(index, value){
+               $('#location-list').append($('<option>', { index : value.name })
+                           .text(value.name));
+             })
+
+              $('#location-list').css({'visibility':'visible'});
+              location_text_working = 0;
+
+         }).error( function() {location_text_working = 0;} );
+      }
+      else{
+       $('#location-list').empty();
+       $('#location-list').css({ 'visibility':'hidden'});
+       location_text_working = 0;
+      }  
     }
-    else $('#location-list').empty();
+    
+  }
+  
+  var LocationTextUpdated = function(){
+    location_text_updated = 1;
   }
   
   $("#location-text")
-    .live('input', UpdateLocationBox)
+    .live('input', LocationTextUpdated)
     .keydown(function (k){
         if(k.keyCode=='40'&& $('#location-list option').length )
         {
@@ -155,4 +175,6 @@ $(document).ready(function(){
   $('#hide-button')
     .click(function(){$('#location-editor').hide(), $('#results').show();});
   Run();
+  
+  window.setInterval(UpdateLocationBox, 500);
 });
