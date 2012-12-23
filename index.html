@@ -1,0 +1,78 @@
+
+<!doctype html>
+<!--[if lt IE 9]><html class="ie"><![endif]-->
+<!--[if gte IE 9]><!--><html><!--<![endif]-->
+	
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		
+		<title>Walk the dog?</title>
+		
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="js/wtd.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+
+
+		<link rel="stylesheet" href="css/wtd.css" type="text/css" media="all" />
+		
+		
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+	</head>
+	
+	<body lang="en">
+		<div class="row">
+				<div class="column grid_6">
+					
+				<header id="title">
+					<h1>Walk the dog?</h1>
+				</header>
+	
+				<div id="results">
+				
+					<section id="location">
+						<div class="row">
+							<div class="column">
+								<p><a href="#" id="user-location" class="show-editor">checking</a></p>
+							</div>
+							<div class="column grid_1">
+								<a class="show-editor" href="#"><img src="img/change.png" width="64" height="64"></a>
+							</div>
+						</div>
+					</section>
+				
+					<section id="message">
+						<p>Loading weather data</p>
+					</section>
+		
+					<section id="why">
+			
+					</section>
+				
+				</div> <!-- results -->
+			
+				<section id="location-editor">
+
+					   <label>Select location:</label>
+							<br />
+						<input type="text" id="location-text" class="grid_5">
+							<br />
+						<select id="location-list" size="2" class="grid_5">
+						</select>
+							<br />
+						<button type="button" id="update-button">Update</button>
+						<button type="button" id="hide-button">Hide</button>
+
+				</section> <!-- location editor -->
+		
+				<footer>
+			
+				</footer>
+			</div>
+		</div> <!-- wrapper -->
+	</body>
+	
+</html>

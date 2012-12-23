@@ -1,0 +1,17 @@
+{ "moon_phase" : { "ageOfMoon" : "7",
+      "current_time" : { "hour" : "16",
+          "minute" : "41"
+        },
+      "percentIlluminated" : "47",
+      "sunrise" : { "hour" : "8",
+          "minute" : "45"
+        },
+      "sunset" : { "hour" : "15",
+          "minute" : "44"
+        }
+    },
+  "response" : { "features" : { "astronomy" : 1 },
+      "termsofService" : "http://www.wunderground.com/weather/api/d/terms.html",
+      "version" : "0.1"
+    }
+}
