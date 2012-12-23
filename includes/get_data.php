@@ -22,7 +22,7 @@ $url_weather = "http://api.wunderground.com/api/".$api_key."/hourly/q/".
 $url_astro = "http://api.wunderground.com/api/".$api_key."/astronomy/q/".
 			rawurlencode($region)."/".rawurlencode($city).".json";
 
-
+// Comment out to use local json copy
 $url_weather = "../json/weather.json";
 $url_astro = "../json/astro.json";
 
