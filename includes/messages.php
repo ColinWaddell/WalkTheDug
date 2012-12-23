@@ -12,10 +12,10 @@ $wtdMessages = array (  array (	"Looks OK - go walk the dog.", // Light = 0 - Ra
 											"It's OK, but it's going to start raining soon.", // Light = 0 - Rain = 2
 											"Hang off a wee bit, weather should be a little better soon."  // Light = 0 - Rain = 3
 										) , 
-								array (	"It's dark but at least it's not raining.", // Light = 1 - Rain = 0
-											"It's dark and raining, you should probably just stay indoors.", // Light = 1 - Rain = 1
-											"It's dark and it's going to start raining soon, bad times.", // Light = 1 - Rain = 2
-											"It's dark but at least the weather should be clearing up soon."  // Light = 1 - Rain = 3
+								array (	"It's going to be dark but at least it's not raining.", // Light = 1 - Rain = 0
+											"It's going to be dark and raining, you should probably just stay indoors.", // Light = 1 - Rain = 1
+											"It's going to be dark and it's going to start raining soon, bad times.", // Light = 1 - Rain = 2
+											"It's going to be dark but at least the weather should be clearing up soon."  // Light = 1 - Rain = 3
 										) ,
 								array (	"Looks OK, but it's going to start getting dark soon.", // Light = 2 - Rain = 0
 											"It's raining and it's going to get dark soon, be prepared.", // Light = 2 - Rain = 1

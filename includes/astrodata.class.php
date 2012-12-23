@@ -66,14 +66,14 @@ class astroData {
 		{
 			$status = 0; //if it's daylight retrun "Good"
 
-			if ($this->sunset_interval < 2)
+			if ($this->sunset_interval <= 1 || $this->sunset_interval == 24)
 				$status = 2; //if getting dark soon return "Good->Bad"
 		}
 		else
 		{
 			$status = 1; //if dark return "Bad"
 
-			if ($this->sunrise_interval < 2)
+			if ($this->sunrise_interval <= 1 || $this->sunrise_interval == 24)
 				$status = 3; //if getting light soon return "Bad->Good"
 		}
 
