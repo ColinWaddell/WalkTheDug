@@ -29,7 +29,8 @@ $url_astro = "../json/astro.json";
 $weatherData = new WeatherData(file_get_contents($url_weather));
 $astroData = new AstroData(file_get_contents($url_astro));
 
+echo $astroData->astro_status;
 
-echo '{"message":'.json_encode($wtdMessages[$astroData->astroStatus()][$weatherData->weatherStatus()]).', "astroData":'.$astroData->json().' , "weatherData":'.$weatherData->json().'}';
+//echo '{"message":'.json_encode($wtdMessages[$astroData->astroStatus()][$weatherData->weatherStatus()]).', "astroData":'.$astroData->json().' , "weatherData":'.$weatherData->json().'}';
 
 ?>

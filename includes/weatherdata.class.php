@@ -51,6 +51,7 @@ class weatherData {
 	public $currently_raining;
 	public $next_rain_spell;
 	public $longest_rain_spell;
+	public $weather_status;
 	
 	private $pop_threshold = 40;
 
@@ -76,6 +77,8 @@ class weatherData {
 			$this->rain_data->addObject($index++, 
 										array("datetime" => new DateTime($hour_report->FCTTIME->pretty), 
 												"pop" => $hour_report->pop));
+												
+		$this->weatherStatus();
 	}
 	
 	public function json()
@@ -218,7 +221,7 @@ class weatherData {
 
 	}
 	
-	public function weatherStatus()
+	private function weatherStatus()
 	{
 		$status = 0;
 		
@@ -250,7 +253,7 @@ class weatherData {
 			}
 		}
 		
-		return $status;
+		$this->weather_status = $status;
 		
 	}
 
