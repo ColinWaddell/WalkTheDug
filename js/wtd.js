@@ -5,7 +5,7 @@ $(document).ready(function(){
 	var processWeatherData =
 	  function(_city, _region)
 	  {
-	    var url = "includes/get_data.php?city="+_city+"&region="+_region;
+	    var url = "includes/get_data.php?city="+encodeURIComponent(_city)+"&region="+encodeURIComponent(_region);
 	    
 	     var Result = $.getJSON(url, "",
       		function (jsonWeather)
@@ -102,10 +102,12 @@ $(document).ready(function(){
     {
       location_text_updated = 0;
       location_text_working = 1;
+      clearInterval(location_editor_timer);
+      location_editor_timer = null;
       var location = $('#location-text').val();
       if (location.length > 3)
       {
-        $.getJSON('includes/location_list.php?location=' + location, "",
+        $.getJSON('includes/location_list.php?location=' + encodeURIComponent(location), "",
            function (jsonLocationList)
            {
              $('#location-list').empty();
@@ -134,6 +136,9 @@ $(document).ready(function(){
   }
   
   var LocationTextUpdated = function(){
+    if (location_editor_timer==null)
+      location_editor_timer = window.setInterval(UpdateLocationBox, 500);
+    
     location_text_updated = 1;
   }
   
@@ -184,5 +189,5 @@ $(document).ready(function(){
     .click(function(){$('#location-editor').hide(), $('#results').show();});
   Run();
   
-  window.setInterval(UpdateLocationBox, 500);
+  var location_editor_timer = window.setInterval(UpdateLocationBox, 500);
 });
