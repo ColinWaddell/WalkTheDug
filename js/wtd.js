@@ -134,13 +134,13 @@ $(document)
         if (_city && _region)
         {
             // Save preference
-            $.cookie('walkthedog_city', _city);
-            $.cookie('walkthedog_region', _region);
+            $.cookie('walkthedug_city', _city);
+            $.cookie('walkthedug_region', _region);
             processWeatherData(_city, _region);
         }
         else
         {
-            if ($.cookie('walkthedog_city') == null || $.cookie('walkthedog_region') == null)
+            if ($.cookie('walkthedug_city') == null || $.cookie('walkthedug_region') == null)
             {
                 $.getJSON('includes/ip_location.php', "",
 
@@ -152,8 +152,8 @@ $(document)
 
                     if (jsonLocation.region && jsonLocation.city)
                     {
-                        $.cookie('walkthedog_city', jsonLocation.city);
-                        $.cookie('walkthedog_region', jsonLocation.region);
+                        $.cookie('walkthedug_city', jsonLocation.city);
+                        $.cookie('walkthedug_region', jsonLocation.region);
                         processWeatherData(jsonLocation.city, jsonLocation.region);
                     }
                     else
@@ -168,8 +168,8 @@ $(document)
             else
             {
                 $("#user-location")
-                    .html($.cookie('walkthedog_city') + "<br>" + $.cookie('walkthedog_region'));
-                processWeatherData($.cookie('walkthedog_city'), $.cookie('walkthedog_region'));
+                    .html($.cookie('walkthedug_city') + "<br>" + $.cookie('walkthedug_region'));
+                processWeatherData($.cookie('walkthedug_city'), $.cookie('walkthedug_region'));
             }
         }
     }
