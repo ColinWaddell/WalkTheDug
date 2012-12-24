@@ -60,7 +60,12 @@
 					</section>
 		
 					<section id="why">
-						<h2 class="align-right italic"><a href="#" id="why-link">more info &darr;</a></h2>
+						<div class="row">
+							<div class="column grid_6">
+									<h2 class="align-right italic"><a href="#" id="why-link">more info &darr;</a></h2>
+							</div>
+						</div>
+
 						<div id="why-data">
 							<div class="row">
 								<div class="column grid_2" id="astro_data">
@@ -129,8 +134,6 @@
 								<p>Walk the dug was made by <a href="http://colinwaddell.com">ColinWaddell.com</a></p>
 								<p>Icons from the <a href="http://thenounproject.com/">noun project</a></p>
 							</div>
-						</div>
-						<div class="row">
 							<div class="column grid_3 align-right">
 								<p>The source code can be found <a href="https://github.com/ColinWaddell/WalkThedug">here</a><p>
 								<p>Weather data from <a href="http://wunderground.com/weather/api/">Wunderground</a></p>
