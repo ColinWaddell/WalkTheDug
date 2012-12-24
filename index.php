@@ -8,7 +8,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		
-		<title>Walk the dog?</title>
+		<title>Walk the dug?</title>
 		
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="js/wtd.js"></script>
@@ -50,7 +50,7 @@
 								<a class="show-editor" href="#"><img src="img/change.png" width="64" height="64" alt="find location"></a>
 							</div>
 							<div class="column grid_1 align-center">
-								<img src="img/dog.png" alt="walk the dog">
+								<img src="img/dog.png" alt="walk the dug">
 							</div>
 						</div>
 					</section>
@@ -124,8 +124,8 @@
 				</section> <!-- location editor -->
 		
 				<footer>
-					<p>Walk the dog was made by <a href="http://colinwaddell.com">ColinWaddell.com</a>.</p>
-					<p>The source code can be found <a href="https://github.com/ColinWaddell/WalkTheDog">here</a>.<p>
+					<p>Walk the dug was made by <a href="http://colinwaddell.com">ColinWaddell.com</a>.</p>
+					<p>The source code can be found <a href="https://github.com/ColinWaddell/WalkThedug">here</a>.<p>
 					<p>Icons from the <a href="http://thenounproject.com/">noun project</a>.</p>
 					<p>Weather data from <a href="http://wunderground.com/weather/api/">Wunderground</a>.</p>
 				</footer>
