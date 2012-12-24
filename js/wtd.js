@@ -211,7 +211,8 @@ $(document)
             data.push([value.prettytime, parseInt(value.pop)]);
         });
 
-
+        
+        $('#raingraph').empty();
         rain_graph = $.jqplot('raingraph', [data],
         {
             title: '% Chance of rain',
