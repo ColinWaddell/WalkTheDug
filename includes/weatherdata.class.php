@@ -19,6 +19,12 @@ class rainDataArray extends ArrayObject{
         $_thisObject = $this->data->offSetGet($_index); 
         return $_thisObject->getObject(); 
     } 
+
+	 function slice($_start, $_length)
+	 {
+		 $_thisArray = $this->data->getArrayCopy();
+		 return array_slice($_thisArray, $_start, $_length);
+	 }
     function printCollection() { 
         print_r($this->data); 
     } 
@@ -92,7 +98,7 @@ class weatherData {
 						"currently_raining" => $this->currently_raining,
 						"next_rain_spell" => $this->next_rain_spell->data,
 						"longest_rain_spell" => $this->longest_rain_spell->data,
-						"raw" => $this->rain_data->data
+						"raw" => $this->rain_data->slice(0,12)
 					));
 //				return json_encode ( $this->longest_rain_free_spell );
 	}

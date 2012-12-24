@@ -19,8 +19,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 .row {
 	width: 610px;
-	margin-left:5px;
-	overflow: hidden;
+	margin: 0 auto;
+/*  overflow: hidden;*/
 }
 .row .row {
 	margin: 0 -5px;
@@ -32,21 +32,37 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 	margin-right:-5px;
 }
 
+.main-body{
+  padding-top:5px;
+}
+
+.align-right{
+  text-align:right;
+}
+
+.align-center{
+  text-align:center;
+}
+
+.italic{
+    font-style:italic;
+}
 
 body{
   font-size:32px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight:bold;
-  color:#333;
+  font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight:normal;
+  color:#BBB9B9;
+  background-image: url('../img/debut_dark.png');
 }
 
 a, a:visited{
   text-decoration:none;
-  color:#39038C;
+  color:#637729;
 }
 
 a:hover{
-  color:#645184;  
+  color:#97461F;  
 }
 
 #wrapper{
@@ -54,10 +70,13 @@ a:hover{
 }
 
 h1,h2,h3{
+  font-weight:bold;
 }
 
 h1{
-  font-size: 42px;
+  font-size: 64px;
+  letter-spacing:2px;
+  color: rgb(206, 186, 125);
 }
 
 h2{
@@ -66,30 +85,45 @@ h2{
 
 h3{
   font-size:24px;
-  border-bottom: 1px dotted #ddd;
+  border-bottom: 1px dotted #777;
+  padding-bottom:10px;
+  font-weight:normal;
 }
 
 section{
   padding-top:5px;
   padding-bottom:10px;
-  border-bottom: 1px dotted #ddd;
+  border-bottom: 1px dotted #777;
 }
 
 footer{
   font-size:18px;
+  padding-top:20px;
+}
+
+#message{
+  font-family: 'Averia Serif Libre', cursive;
+  color: #97461F;
+}
+
+#user-location{
+  font-weight:bold;
 }
 
 #location-editor{
   display:none;
 }
 
+
 #location-text{
   padding:0;
   margin:0 0 0 5px;
   border:0;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #BBB9B9;
   font-size:24px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: transparent;
+  color:#BBB9B9;
 }
 
 #location-text:focus{
@@ -99,11 +133,11 @@ footer{
 
 #location-list{
   font-size:18px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin:0 0 0 5px;
   border:0;
-  border-bottom: 1px solid #333;
-  font-weight: 200;
+  border-bottom: 1px solid #BBB9B9;
+  font-weight: 300;
   visibility: hidden;
 }
 
@@ -112,7 +146,7 @@ footer{
 }
 
 button{
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size:18px;
 }
 
@@ -123,6 +157,7 @@ button{
 
 #why-data{
   display:none;
+  padding-top:10px;
 }
 .graph{
   font-size:14px;

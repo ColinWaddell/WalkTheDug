@@ -10,7 +10,7 @@ $(document).ready(function(){
 	     var Result = $.getJSON(url, "",
       		function (jsonWeather)
       		{
-        		$("#message").html(jsonWeather.message);	
+        		$("#message").html('\"'+jsonWeather.message+'\"');	
         		$('#why').show("fast");
         		$("#current_time").html(jsonWeather.astroData.current_time.match(/\ (.*):/)[1])
         		$("#sunset_time").html(jsonWeather.astroData.sunset_time.match(/\ (.*):/)[1])
@@ -161,7 +161,7 @@ $(document).ready(function(){
       title:'% Chance of rain',
       grid:
         {
-          background: '#FFF',
+          background: 'transparent',
           shadow: false,
           borderWidth: 0
         },
@@ -170,12 +170,14 @@ $(document).ready(function(){
           xaxis:
           {
             renderer:$.jqplot.DateAxisRenderer, 
-            tickOptions:{formatString:'%H:%I'},
-            numberTicks:5
+            tickOptions:{formatString:'%a %I%p'},
+            numberTicks:4
           }
         },
       series:[{
-        lineWidth:1, 
+        lineWidth:4,
+        shadow: false, 
+        color: "#97461F",
         markerOptions:{show: false},  
         rendererOptions: {
             smooth: true
@@ -229,13 +231,19 @@ $(document).ready(function(){
   $('#hide-button')
     .click(function(){$('#location-editor').hide("fast"), $('#results').show("fast");});
     
+  $('#clear-button').click( function () {$('#location-text').val('')});
   $('#why-link').click(
     function(){ 
       if($('#why-data').css('display')=="none")
       {
+        $('#why-link').html('less info &uarr;');
         $("#why-data").show("fast");
         rain_graph.draw();
-      }else $("#why-data").hide("fast");
+      }else 
+      {
+         $('#why-link').html('more info &darr;');
+         $("#why-data").hide("fast"); 
+      }
     });
   Run();
   
