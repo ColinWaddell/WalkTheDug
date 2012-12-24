@@ -77,6 +77,9 @@ h1{
   font-size: 64px;
   letter-spacing:2px;
   color: rgb(206, 186, 125);
+  font-family: 'Averia Serif Libre', cursive;
+  font-style: italic;
+  font-weight:normal;
 }
 
 h2{
@@ -103,6 +106,7 @@ footer{
 
 #message{
   font-family: 'Averia Serif Libre', cursive;
+  font-style: italic;
   color: #97461F;
 }
 
