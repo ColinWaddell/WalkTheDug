@@ -124,10 +124,21 @@
 				</section> <!-- location editor -->
 		
 				<footer>
-					<p>Walk the dug was made by <a href="http://colinwaddell.com">ColinWaddell.com</a></p>
-					<p>The source code can be found <a href="https://github.com/ColinWaddell/WalkThedug">here</a><p>
-					<p>Icons from the <a href="http://thenounproject.com/">noun project</a></p>
-					<p>Weather data from <a href="http://wunderground.com/weather/api/">Wunderground</a></p>
+						<div class="row">
+							<div class="column grid_3">
+								<p>Walk the dug was made by <a href="http://colinwaddell.com">ColinWaddell.com</a></p>
+								<p>Icons from the <a href="http://thenounproject.com/">noun project</a></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="column grid_3 align-right">
+								<p>The source code can be found <a href="https://github.com/ColinWaddell/WalkThedug">here</a><p>
+								<p>Weather data from <a href="http://wunderground.com/weather/api/">Wunderground</a></p>
+							</div>
+						</div>
+					</div>
+					
+					
 				</footer>
 			</div>
 		</div> <!-- wrapper -->
