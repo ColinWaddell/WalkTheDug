@@ -63,7 +63,7 @@
 						<h2 class="align-right italic"><a href="#" id="why-link">more info &darr;</a></h2>
 						<div id="why-data">
 							<div class="row">
-								<div class="column grid_2">
+								<div class="column grid_2" id="astro_data">
 									<div class="row">
 										<div class="column grid_2">
 											<br />
@@ -73,10 +73,10 @@
 									<div class="row">
 										<br />
 										<div class="column grid_1">
-											<p>Time</p>		
+											<p>Time Now</p>		
 										</div>
 										<div class="column grid_1">
-											<p><span id="current_time"></span></p>
+											<p>- <span id="current_time"></span></p>
 										</div>
 									</div>
 									<div class="row">
@@ -84,7 +84,7 @@
 											<p>Sunset</p>		
 										</div>
 										<div class="column grid_1">
-											<p><span id="sunset_time"></span></p>
+											<p>- <span id="sunset_time"></span></p>
 										</div>
 									</div>
 									<div class="row">
@@ -92,7 +92,7 @@
 											<p>Sunrise</p>	
 										</div>
 										<div class="column grid_1">
-											<p><span id="sunrise_time"></span></p>
+											<p>- <span id="sunrise_time"></span></p>
 										</div>
 									</div>
 								</div>
