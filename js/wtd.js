@@ -88,7 +88,6 @@ $(document)
                               {
                                   class: "location-result", 
                                   href : "#",
-                                  index: value.name,
                                   city: array[0],
                                   region: array[1]
                               })

@@ -140,7 +140,7 @@ footer{
   font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin:0 0 0 5px;
   border:0;
-  border-bottom: 1px solid #BBB9B9;
+/*  border-bottom: 1px solid #BBB9B9;*/
   font-weight: 300;
   visibility: hidden;
 }
