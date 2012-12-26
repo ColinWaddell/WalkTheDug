@@ -126,7 +126,7 @@
 						<button type="button" id="hide-button">Hide</button>
 
 				</section> <!-- location editor -->
-		
+
 				<footer>
 						<div class="row">
 							<div class="column grid_3">
