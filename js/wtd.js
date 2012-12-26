@@ -77,19 +77,24 @@ $(document)
                     $('#location-list')
                         .empty();
 
-                    if (jsonLocationList.results.length) $('#update-button')
-                        .removeAttr("disabled");
-                    else $('#update-button')
-                        .attr("disabled", "disabled");
-
                     $.each(jsonLocationList.results, function (index, value)
                     {
-                        $('#location-list')
-                            .append($('<option>',
+
+                        var array = value.name.split(', ');
+                        if ( array.length == 2 )
                         {
-                            index: value.name
-                        })
-                            .text(value.name));
+                          $('#location-list')
+                              .append($('<a>',
+                              {
+                                  class: "location-result", 
+                                  href : "#",
+                                  index: value.name,
+                                  city: array[0],
+                                  region: array[1]
+                              })
+                              .click( function (e) { Update(e.target.attributes.city.nodeValue, e.target.attributes.region.nodeValue) })
+                              .html(value.name));
+                        }
                     })
 
                     $('#location-list')
@@ -114,8 +119,6 @@ $(document)
                 {
                     'visibility': 'hidden'
                 });
-                $('#update-button')
-                    .attr("disabled", "disabled");
                 location_text_working = 0;
             }
         }
@@ -174,31 +177,18 @@ $(document)
         }
     }
 
-    var Update = function ()
+    var Update = function (_city, _region)
     {
-        if ($('#location-list option')
-            .length && $('#update-button')
-            .attr("disabled") != "disabled")
-        {
-            if ($('#location-list option:selected')
-                .length == 0) $('#location-list option:first')
-                .attr('selected', 'selected')
-                .parent()
-                .focus();
 
-            var string = $('#location-list option:selected')
-                .text();
-            var array = string.split(', ');
             $('#user-location')
-                .html(array[0] + "<br>" + array[1]);
+                .html(_city + "<br>" + _region);
             $("#message")
                 .html('Loading weather data.')
-            Run(array[0], array[1]);
+            Run(_city, _region);
             $('#location-editor')
                 .hide("fast");
             $('#results')
                 .show("fast");
-        }
     }
 
     var rain_graph;
@@ -245,72 +235,14 @@ $(document)
     }
 
     $("#location-text")
-        .live('input', LocationTextUpdated)
-        .keydown(function (k)
-    {
-        if (k.keyCode == '40' && $('#location-list option')
-            .length)
-        {
-            $('#location-text')
-                .attr('prevval', $('#location-text')
-                .val());
-            $('#location-text')
-                .val($('#location-list option:first')
-                .text());
-            $('#location-list option:first')
-                .attr('selected', 'selected')
-                .parent()
-                .focus();
-        }
-        else if (k.keyCode == '13')
-        {
-            Update();
-        }
-    });
+        .live('input', LocationTextUpdated);
 
-    $('#location-list')
-        .keydown(function (k)
-    {
-        if (k.keyCode == '38' && $('#location-list')
-            .prop('selectedIndex') == 0)
-        {
-            $('#location-text')
-                .val($('#location-text')
-                .attr('prevval'));
-            $('#location-text')
-                .attr('selected', 'selected')
-                .focus();
-        }
-        else if (k.keyCode == '13')
-        {
-            Update();
-        }
-    })
-        .change(function ()
-    {
-        if ($('#location-list option')
-            .length) if ($('#location-list option:selected')
-            .length) $('#location-text')
-            .val($('#location-list option:selected')
-            .text());
-        else
-        {
-            $('#location-list option:first')
-                .attr('selected', 'selected')
-                .parent()
-                .focus();
-            $('#location-text')
-                .val($('#location-list option:first')
-                .text());
-        }
-    });
 
     $('.show-editor')
         .click(ShowLocationEditor);
 
-    $('#update-button')
-        .attr("disabled", "disabled")
-        .click(Update);
+    $('.location-result').click( function () { alert("yo")});
+
     $('#hide-button')
         .click(function ()
     {
@@ -323,7 +255,8 @@ $(document)
         .click(function ()
     {
         $('#location-text')
-            .val('')
+            .val('');
+        $('#location-text').focus();
     });
     $('#why-link')
         .click(

@@ -120,10 +120,9 @@
 							<br />
 						<input type="text" id="location-text" class="grid_5 italic"> <button type="button" id="clear-button">Clear</button>
 							<br />
-						<select id="location-list" size="5" class="grid_5">
-						</select>
+						<div id="location-list" size="5" class="grid_5">
+						</div>
 							<br />
-						<button type="button" id="update-button">Update</button>
 						<button type="button" id="hide-button">Hide</button>
 
 				</section> <!-- location editor -->
