@@ -134,7 +134,7 @@
 								<p>Icons from the <a href="http://thenounproject.com/">noun project</a></p>
 							</div>
 							<div class="column grid_3 align-right">
-								<p>The source code can be found <a href="https://github.com/ColinWaddell/WalkTheDog">here</a><p>
+								<p>The source code can be found <a href="https://github.com/ColinWaddell/WalkTheDug">here</a><p>
 								<p>Weather data from <a href="http://wunderground.com/weather/api/">Wunderground</a></p>
 							</div>
 						</div>
