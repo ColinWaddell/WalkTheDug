@@ -29,16 +29,19 @@
 	24	Blizzard
 */
 
+// DiffInHours($this->next_rain_spell->data[0]->datetime,$this->rain_data->data[0]->datetime);
+
+
 require_once("datefix.php");
 
-class rainDataArray extends ArrayObject{ 
+class weatherDataArray extends ArrayObject{ 
     public $data; 
     function __construct(){ 
         $this->data = new ArrayObject(); 
     } 
     
     function addObject($_index, $_data){ 
-        $_thisItem = new rainData($_index, $_data); 
+        $_thisItem = new weatherDatum($_index, $_data); 
         $this->data->offSetSet($_index, $_thisItem); 
     } 
     function deleteObject($_index){ 
@@ -59,9 +62,10 @@ class rainDataArray extends ArrayObject{
     } 
 } 
 
-class rainData { 
+class weatherDatum { 
     public $index;
     public $pop; 
+	 public $fctcode;
 	 public $prettytime;
 	 public $datetime;
     
@@ -70,6 +74,7 @@ class rainData {
         $this->pop = $_data["pop"];
 		  $this->datetime = $_data["datetime"]; 
 		  $this->prettytime = $this->datetime->format('Y-m-d H:i:s');
+		  $this->fctcode = $_data["fctcode"]; 
     } 
     function printObject() { 
         print_r($this); 
@@ -80,224 +85,58 @@ class rainData {
 class weatherData {
 	private $rawjson;
 	private $weather_data;
+	private $decoded_data;
 	
-	private $rain_data;
 	
-	public $longest_rain_free_spell;
-	public $next_rain_free_spell;
-	public $currently_raining;
-	public $next_rain_spell;
-	public $longest_rain_spell;
-	public $weather_status;
-	
-	private $pop_threshold = 40;
+	public $fctcode = 0;
+	public $fctcode_next = 0;
 
 	public function __construct($json) 
 	{
 			$this->rawjson = $json;
 			$this->decode();
-			
-			//print_r($this->rain_data);
-			
-			$this->find_rain_spells();
-			$this->find_rain_free_spells();
-			$this->currently_raining = ($this->rain_data->data[0]->pop >= $this->pop_threshold);
 	}
 
 	private function decode()
 	{
-		$this->weather_data = json_decode($this->rawjson);
-		$this->rain_data = new rainDataArray();
+		$this->decoded_data = json_decode($this->rawjson);
+		$this->weather_data = new weatherDataArray();
 		
 		$index=0;
-		foreach ($this->weather_data->hourly_forecast as $hour_report)
-			$this->rain_data->addObject($index++, 
+		foreach ($this->decoded_data->hourly_forecast as $hour_report)
+			$this->weather_data->addObject($index++, 
 										array("datetime" => new DateTime($hour_report->FCTTIME->pretty), 
-												"pop" => $hour_report->pop));
-												
-		$this->weatherStatus();
+												"pop" => $hour_report->pop,
+												"fctcode" => $hour_report->fctcode));
+	
+		$this->fctcode = $this->weather_data->data[0]->fctcode;
+		
+		$this->fctcode_next = (	$this->fctcode == $this->weather_data->data[1]->fctcode
+											?
+										$this->weather_data->data[2]->fctcode : $this->weather_data->data[1]->fctcode);
+		
 	}
 	
 	public function json()
 	{
 		return json_encode ( 
 					array (
-						"longest_rain_free_spell" => $this->longest_rain_free_spell->data,
-						"next_rain_free_spell" => $this->next_rain_free_spell->data,
-						"currently_raining" => $this->currently_raining,
-						"next_rain_spell" => $this->next_rain_spell->data,
-						"longest_rain_spell" => $this->longest_rain_spell->data,
-						"raw" => $this->rain_data->slice(0,12)
+						"pop" => $this->weather_data->slice(0,12),
+						"fctcode" => $this->fctcode,
+						"fctcode_next" => $this->fctcode_next
 					));
-//				return json_encode ( $this->longest_rain_free_spell );
 	}
 	
-	private function find_rain_free_spells()
+	public function get_fctcode()
 	{
-		$longest_length = 0;
-		$current_length = 0;
-		$longest_id;
-		$current_id;
-		$found = false;
-		$first_found = true;
-		
-		$this->longest_rain_free_spell = new rainDataArray();
-		
-		foreach ($this->rain_data->data as $data)
-		{
-
-			if ($data->pop < $this->pop_threshold 
-				 && 
-				!($data->index==($this->rain_data->data->count()-1)))
-			{
-				if (!$found)
-				{
-					$found = true;
-					$current_length = 1;
-					$current_id = $data->index;
-				}
-				else {$current_length++;}
-			}
-			else
-			{
-				if ($found)
-				{
-					$current_length++;
-					$found = false;
-
-					if ($first_found)
-					{
-						$first_found=false;
-						$this->next_rain_free_spell = new rainDataArray();
-						$index=0;
-						for ($id = $current_id; $id < $current_id + $current_length; $id++)
-									$this->next_rain_free_spell->addObject($index++, 
-																		array("datetime" => $this->rain_data->data[$id]->datetime, 
-																		"pop" => $this->rain_data->data[$id]->pop));
-					}
-
-					if ($current_length>$longest_length)
-					{
-						$longest_id = $current_id;
-						$longest_length = $current_length;
-					}
-				}
-				else $found = false;
-			}
-		}
-		
-		$index=0;
-		for ($id = $longest_id; $id < $longest_id + $longest_length; $id++)
-		{
-					$this->longest_rain_free_spell->addObject($index++, 
-														array("datetime" => $this->rain_data->data[$id]->datetime, 
-														"pop" => $this->rain_data->data[$id]->pop));
-														
-			
-		}
-
+		return $this->fctcode;
 	}
-	
-	
-	private function find_rain_spells()
+
+	public function get_fctcode_next()
 	{
-		$longest_length = 0;
-		$current_length = 0;
-		$longest_id;
-		$current_id;
-		$found = false;
-		$first_found = true;
-		
-		$this->longest_rain_spell = new rainDataArray();
-		
-		foreach ($this->rain_data->data as $data)
-		{
-
-			if ($data->pop >= $this->pop_threshold 
-				 && 
-				!($data->index==($this->rain_data->data->count()-1)))
-			{
-				if (!$found)
-				{
-					$found = true;
-					$current_length = 1;
-					$current_id = $data->index;
-				}
-				else {$current_length++;}
-			}
-			else
-			{
-				if ($found)
-				{
-					$current_length++;
-					$found = false;
-
-					if ($first_found)
-					{
-						$first_found=false;
-						$this->next_rain_spell = new rainDataArray();
-						$index=0;
-						for ($id = $current_id; $id < $current_id + $current_length; $id++)
-									$this->next_rain_spell->addObject($index++, 
-																		array("datetime" => $this->rain_data->data[$id]->datetime, 
-																		"pop" => $this->rain_data->data[$id]->pop));
-						
-																		
-					}
-
-					if ($current_length>$longest_length)
-					{
-						$longest_id = $current_id;
-						$longest_length = $current_length;
-					}
-				}
-				else $found = false;
-			}
-		}
-		
-		$index=0;
-		for ($id = $longest_id; $id < $longest_id + $longest_length; $id++)
-					$this->longest_rain_spell->addObject($index++, 
-													array("datetime" => $this->rain_data->data[$id]->datetime, 
-													"pop" => $this->rain_data->data[$id]->pop));
-
+		return $this->fctcode_next;
 	}
 	
-	private function weatherStatus()
-	{
-		$status = 0;
-		
-		if($this->currently_raining)
-		{
-			$status = 1; //If raining return "Bad"
-			if (isset($this->next_rain_free_spell->data))
-			{
-				// $rain_duration = $this->rain_data->data[0]->datetime->diff($this->next_rain_free_spell->data[0]->datetime);
-				// 				if ($rain_duration < (new DateInterval("PT1H")))
-				// 					$status = 3; //If getting better soon return "Good->Bad"
-				$rain_duration = DiffInHours($this->next_rain_free_spell->data[0]->datetime, $this->rain_data->data[0]->datetime);
-				if ($rain_duration < 2)
-					$status = 3;
-			}
-			
-		}
-		else 
-		{
-			$status = 0; //If dry return "Good"
-			if (isset($this->next_rain_spell->data))
-			{
-				// $dry_duration = $this->rain_data->data[0]->datetime->diff($this->next_rain_spell->data[0]->datetime);
-				// if ($dry_duration < (new DateInterval("PT1H")))
-				// 	$status = 2; //If getting wet soon return "Good->Bad"
-				$dry_duration = DiffInHours($this->next_rain_spell->data[0]->datetime,$this->rain_data->data[0]->datetime);
-				if ($dry_duration < 2)
-					$status = 2;
-			}
-		}
-		
-		$this->weather_status = $status;
-		
-	}
 
 }
 

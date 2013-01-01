@@ -13,7 +13,7 @@ class astroData {
 	public $sunset_interval;
 	public $daylight;
 
-	public $astro_status;
+	public $astro_status = 0;
 
 	public function __construct($json = '') { //Optional parameter
 		if ($json!="")
@@ -54,19 +54,6 @@ class astroData {
 				
 	}
 	
-	public function json()
-	{	
-		return json_encode ( 
-					array (
-						"current_time" => $this->current_time->format('Y-m-d H:i:s'),
-						"sunrise_time" => $this->sunrise_time->format('Y-m-d H:i:s'),
-						"sunset_time" => $this->sunset_time->format('Y-m-d H:i:s'),
-						"sunrise_interval" => $this->sunrise_interval,
-						"sunset_interval" => $this->sunset_interval,
-						"daylight" => $this->daylight,
-						"astro_status" => $this->astroStatus
-					));
-	}
 	
 	private function astroStatus()
 	{
@@ -89,6 +76,25 @@ class astroData {
 
 		$this->astro_status = $status;
 		
+	}
+	
+	public function json()
+	{	
+		return json_encode ( 
+					array (
+						"current_time" => $this->current_time->format('Y-m-d H:i:s'),
+						"sunrise_time" => $this->sunrise_time->format('Y-m-d H:i:s'),
+						"sunset_time" => $this->sunset_time->format('Y-m-d H:i:s'),
+						"sunrise_interval" => $this->sunrise_interval,
+						"sunset_interval" => $this->sunset_interval,
+						"daylight" => $this->daylight,
+						"astro_status" => $this->astroStatus
+					));
+	}
+	
+	public function get_astro_status()
+	{
+		return $this->astro_status;
 	}
 
 }

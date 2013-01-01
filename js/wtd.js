@@ -8,22 +8,21 @@ $(document)
         var url = "includes/get_data.php?city=" + encodeURIComponent(_city) + "&region=" + encodeURIComponent(_region);
 
         var Result = $.getJSON(url, "",
-
-        function (jsonWeather)
-        {
-            $("#message")
-                .html('\"' + jsonWeather.message + '\"');
-            $('#why')
-                .show("fast");
-            $("#current_time")
-                .html(jsonWeather.astroData.current_time.match(/\ (.*):/)[1])
-            $("#sunset_time")
-                .html(jsonWeather.astroData.sunset_time.match(/\ (.*):/)[1])
-            $("#sunrise_time")
-                .html(jsonWeather.astroData.sunrise_time.match(/\ (.*):/)[1])
-            DrawRainGraph(jsonWeather.weatherData.raw);
-        })
-            .error(WTDWeatherError);
+          function (jsonWeather)
+          {
+              $("#message")
+                  .html('\"' + jsonWeather.message + '\"');
+              $('#why')
+                  .show("fast");
+              $("#current_time")
+                  .html(jsonWeather.astroData.current_time.match(/\ (.*):/)[1])
+              $("#sunset_time")
+                  .html(jsonWeather.astroData.sunset_time.match(/\ (.*):/)[1])
+              $("#sunrise_time")
+                  .html(jsonWeather.astroData.sunrise_time.match(/\ (.*):/)[1])
+              DrawRainGraph(jsonWeather.weatherData.pop);
+          })
+          .error(WTDWeatherError);
     }
 
     var WTDWeatherError = function ()
