@@ -1,5 +1,7 @@
 <?php
 
+// Programming natural text is harder than I thought it'd be. Bugger.
+
 /*
 	Light Status
 	=============
@@ -92,25 +94,26 @@ class wtdMessage
 									array ( " pretty wet" , 0 ), // 23
 									array ( " snow to come" , 0 ), // 24
 	 							);
+	
 	// structor $weatherConjunction[weather_now_bad/good][weather_next_bad/good]
 	private static $weatherConjunction = array (	array (" with", " but"), 
 														array ( " but", " and"));
 													
-	private static $lightMessage = array ( 	"" ,
+	private static $lightMessage = array ( "" ,
 												" it's going to be dark outside",
 												" it's going to start getting dark soon",
 												" it should be getting light outside soon");
 										
 	// lightConjunction[light code][weather_next_bad/good]							
-	private static $lightConjunction = array ( array( "", "" ),
+	private static $lightConjunction = array ( 
+													array( "", "" ),
 													array( " and", ", although" ),
 													array( " and", ", although" ),
-													array( " but", " and" ));
+													array( " but", " and" )
+												  );
 	
 	public function GenerateMessage( $_light_code, $_fctcode, $_fctcode_next)
-	{
-
-		
+	{		
 		$msg_1 = self::$weatherMsg1[$_fctcode][0];
 		$msg_2 = ($_fctcode==$_fctcode_next ? "" : self::$weatherMsg2[$_fctcode_next][0]);
 
@@ -119,8 +122,7 @@ class wtdMessage
 		$weather_conjunction = self::$weatherConjunction[self::$weatherMsg1[$_fctcode][1]][self::$weatherMsg1[$_fctcode_next][1]];
 		$light_conjunction = self::$lightConjunction[$_light_code][self::$weatherMsg1[$_fctcode_next][1]];
 		
-		return $msg_1 . $weather_conjunction . $msg_2 . $light_conjunction . $msg_3;
-		
+		return $msg_1 . $weather_conjunction . $msg_2 . $light_conjunction . $msg_3;	
 	}
 	
 }
