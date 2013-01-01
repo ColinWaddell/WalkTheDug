@@ -1,13 +1,13 @@
 <?php
 
-// structured as wtdMessages [ Light Status ] [ Rain Status ]
-
-// Status	0: Good
-// 			1: Bad
-// 			2: Good->Bad
-// 			3: Bad->Good
-
 /*
+	Light Status
+	=============
+	0  Good
+	1  Bad
+	2  Good->Bad
+	3  Bad->Good
+
 	fctcodes
 	========
 	1	Clear	
@@ -38,193 +38,92 @@
 
 class wtdMessage
 {
+
+	private static $weatherMsg1 =  array ( 0,
+									array ( "Looks great" , 1 ), // 1
+									array ( "Looks great" , 1 ), // 2
+									array ( "Looks a bit cloudy" , 0 ), // 3
+									array ( "Looks a bit cloudy" , 0 ), // 4
+									array ( "Doesn't looks great" , 0 ), // 5
+									array ( "Doesn't looks great" , 0 ), // 6
+									array ( "It's going to be hot" , 0 ), // 7
+									array ( "It's going to be cold" , 0 ), // 8
+									array ( "Looks like snow out there" , 0 ), // 9
+									array ( "It could be a bit wet" , 0 ), // 10
+									array ( "It's looking kind of wet" , 0 ), // 11
+									array ( "It could be a bit wet" , 0 ), // 12
+									array ( "It's looking kind of wet" , 0 ), // 13
+									array ( "It could be a bit wet" , 0 ), // 14
+									array ( "It's looking kind of wet" , 0 ), // 15
+									array ( "Looks like snow out there" , 0 ), // 16
+									0, // 17
+									array ( "It could be a bit wet" , 0 ), // 18
+									array ( "It's looking kind of wet" , 0 ), // 19
+									array ( "Looks like snow out there" , 0 ), // 20
+									array ( "Looks like snow out there" , 0 ), // 21
+									array ( "It could be a bit wet" , 0 ), // 22
+									array ( "It's looking kind of wet" , 0 ), // 23
+									array ( "Looks like snow out there" , 0 ), // 24
+	 							);
+	
+	private static $weatherMsg2 =  array ( 0,
+									array ( " should be nice later" , 1 ), // 1
+									array ( " should be nice later" , 0 ), // 2
+									array ( " a little cloudy later" , 0 ), // 3
+									array ( " a little cloudy later" , 0 ), // 4
+									array ( " a bit misty later" , 0 ), // 5
+									array ( " a bit misty later" , 0 ), // 6
+									array ( " a bit hot later" , 0 ), // 7
+									array ( " a bit hot later" , 0 ), // 8
+									array ( " snow to come" , 0 ), // 9
+									array ( " a chance of rain to come" , 0 ), // 10
+									array ( " pretty wet" , 0 ), // 11
+									array ( " a chance of rain to come" , 0 ), // 12
+									array ( " pretty wet" , 0 ), // 13
+									array ( " a chance of rain to come" , 0 ), // 14
+									array ( " pretty wet" , 0 ), // 15
+									array ( " snow to come" , 0 ), // 16
+									0, // 17
+									array ( " a chance of rain to come" , 0 ), // 18
+									array ( " pretty wet" , 0 ), // 19
+									array ( " snow to come" , 0 ), // 20
+									array ( " snow to come" , 0 ), // 21
+									array ( " a chance of rain to come" , 0 ), // 22
+									array ( " pretty wet" , 0 ), // 23
+									array ( " snow to come" , 0 ), // 24
+	 							);
+	// structor $weatherConjunction[weather_now_bad/good][weather_next_bad/good]
+	private static $weatherConjunction = array (	array (" with", " but"), 
+														array ( " but", " and"));
+													
+	private static $lightMessage = array ( 	"" ,
+												" it's going to be dark outside",
+												" it's going to start getting dark soon",
+												" it should be getting light outside soon");
+										
+	// lightConjunction[light code][weather_next_bad/good]							
+	private static $lightConjunction = array ( array( "", "" ),
+													array( " and", ", although" ),
+													array( " and", ", although" ),
+													array( " but", " and" ));
 	
 	public function GenerateMessage( $_light_code, $_fctcode, $_fctcode_next)
 	{
-		$msg_1 = "";
-		$msg_2 = "";
-		$msg_3 = "";
+
 		
-		$weather_conjunction = "";
-		$light_conjunction = "";
+		$msg_1 = self::$weatherMsg1[$_fctcode][0];
+		$msg_2 = ($_fctcode==$_fctcode_next ? "" : self::$weatherMsg2[$_fctcode_next][0]);
+
+		$msg_3 = self::$lightMessage[$_light_code];
 		
-		$good_news_now = true;
-		$good_news_next = true;
-			
-		switch ($_fctcode)
-		{
-			case 1: //Clear	
-			case 2: //Partly Cloudy	
-				$msg_1 .= "Looks great";
-				$good_news_now = true;
-				break;
-				
-			case 3: //Mostly Cloudy	
-			case 4: //Cloudy
-				$msg_1 .= "Looks a bit cloudy";
-				$good_news_now = false;
-				break;
-				
-			case 5: //Hazy
-			case 6: //Foggy
-				$msg_1 .= "Doesn't looks great";
-				$good_news_now = false;
-				break;
-				
-			case 7: //Very Hot
-				$msg_1 .= "It's going to be hot";
-				$good_news_now = false;
-				break;
-				
-			case 8: //	Very Cold	
-				$msg_1 .= "It's going to be cold";
-				$good_news_now = false;
-				break;
-				
-			case 10: //	Chance of Showers	
-			case 12: //	Chance of Rain	
-			case 14: //	Chance of a Thunderstorm	
-			case 18: //	Chance of Snow Showers	
-			case 22: //	Chance of Ice Pellets	
-				$msg_1 .= "It could be a bit wet";
-				$good_news_now = false;
-				break;
-				
-			case 11: //	Showers	
-			case 13: //	Rain	
-			case 15: //	Thunderstorm	
-			case 19: //	Snow Showers	
-			case 23: //	Ice Pellets
-				$msg_1 .= "It looking kind of wet";
-				$good_news_now = false;
-				break;
-
-			case 9: //	Blowing Snow
-			case 16: //	Flurries	
-			case 20: //	Chance of Snow	
-			case 21: //	Snow	
-			case 24: //	Blizzard
-				$msg_1 .= "Looks like snow out there";
-				$good_news_now = false;
-				break;
-		}
+		$weather_conjunction = self::$weatherConjunction[self::$weatherMsg1[$_fctcode][1]][self::$weatherMsg1[$_fctcode_next][1]];
+		$light_conjunction = self::$lightConjunction[$_light_code][self::$weatherMsg1[$_fctcode_next][1]];
 		
-		if ($_fctcode!=$_fctcode_next)
-		{
-			switch ($_fctcode_next)
-			{
-				case 1: //Clear	
-				case 2: //Partly Cloudy	
-					$msg_2 .= " should be nice later";
-					$good_news_next = true;
-					break;
-
-				case 3: //Mostly Cloudy	
-				case 4: //Cloudy
-					$msg_2 .= " a little cloudy later";
-					$good_news_next = false;
-					break;
-
-				case 5: //Hazy
-				case 6: //Foggy
-					$msg_2 .= " a bit misty later";
-					$good_news_next = false;
-					break;
-
-				case 7: //Very Hot
-					$msg_2 .= " a bit hot later";
-					$good_news_next = false;
-					break;
-
-				case 8: //	Very Cold	
-					$msg_2 .= " cold later";
-					$good_news_next = false;
-					break;
-
-				case 10: //	Chance of Showers	
-				case 12: //	Chance of Rain	
-				case 14: //	Chance of a Thunderstorm	
-				case 18: //	Chance of Snow Showers	
-				case 22: //	Chance of Ice Pellets	
-					$msg_2 .= " a chance of rain to come";
-					$good_news_next = false;
-					break;
-
-				case 11: //	Showers	
-				case 13: //	Rain	
-				case 15: //	Thunderstorm	
-				case 19: //	Snow Showers	
-				case 23: //	Ice Pellets
-					$msg_2 .= " pretty wet";
-					$good_news_next = false;
-					break;
-
-				case 9: //	Blowing Snow
-				case 16: //	Flurries	
-				case 20: //	Chance of Snow	
-				case 21: //	Snow	
-				case 24: //	Blizzard
-						$msg_2 .= " snow to come";
-						$good_news_next = false;
-						break;
-			}
-			
-			if ($good_news_now && $good_news_next)
-				$weather_conjunction = " and";
-			if ($good_news_now && !$good_news_next)
-					$weather_conjunction = " but";
-			if (!$good_news_now && $good_news_next)
-				$weather_conjunction = " but";
-			if (!$good_news_now && !$good_news_next)
-				$weather_conjunction = " and";
-			
-		}
-		
-		
-		switch ($_light_code)
-		{
-			case 1:
-				$msg_3 .= " it's going to be dark outside";
-				$light_conjunctions = ($good_news_next ? ", although" : " and"); 
-				break;
-			case 2:
-				$msg_3 .= " it's going to start getting dark soon";
-				$light_conjunctions = ($good_news_next ? ", although" : " and");
-				break;
-			case 3:
-				$msg_3 .= " it should be getting light outside soon";
-				$light_conjunctions = ($good_news_next ? " and" : " but");
-				break;
-		}
-		
-		return $msg_1.$weather_conjunction.$msg_2.$light_conjunctions.$msg_3;
+		return $msg_1 . $weather_conjunction . $msg_2 . $light_conjunction . $msg_3;
 		
 	}
 	
 }
-
-
-$wtdMessages = array (  array (	"Looks OK - go walk the dog.", // Light = 0 - Rain = 0
-											"It's going to be raining for a wee bit, might as well walk the dog.", // Light = 0 - Rain = 1
-											"It's OK, but it's going to start raining soon.", // Light = 0 - Rain = 2
-											"Hang off a wee bit, weather should be a little better soon."  // Light = 0 - Rain = 3
-										) , 
-								array (	"It's going to be dark but at least it's not raining.", // Light = 1 - Rain = 0
-											"It's going to be dark and raining, you should probably just stay indoors.", // Light = 1 - Rain = 1
-											"It's going to be dark and it's going to start raining soon, bad times.", // Light = 1 - Rain = 2
-											"It's going to be dark but at least the weather should be clearing up soon."  // Light = 1 - Rain = 3
-										) ,
-								array (	"Looks OK, but it's going to start getting dark soon.", // Light = 2 - Rain = 0
-											"It's raining and it's going to get dark soon, be prepared.", // Light = 2 - Rain = 1
-											"It's getting dark and it's probably going to rain soon, bad times.", // Light = 2 - Rain = 2
-											"It's going to get dark soon, but at least the weather is going to clear up a little."  // Light = 2 - Rain = 3
-										) ,
-								array (	"Weathers nice and it should be getting light soon, perfect!", // Light = 3 - Rain = 0
-											"Weathers rubbish but at least it's going to get light soon.", // Light = 3 - Rain = 1
-											"It's going to be light outside soon, but the weathers going to be rubbish.", // Light = 3 - Rain = 2
-											"It's getting light outside soon and the weather should hopefully be clearing up."  // Light = 3 - Rain = 3
-										));
-
 
 
 ?>
