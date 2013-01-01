@@ -115,14 +115,19 @@ class wtdMessage
 	public function GenerateMessage( $_light_code, $_fctcode, $_fctcode_next)
 	{		
 		$msg_1 = self::$weatherMsg1[$_fctcode][0];
-		$msg_2 = ($_fctcode==$_fctcode_next ? "" : self::$weatherMsg2[$_fctcode_next][0]);
+		
+		$msg_2 = "";
+		$weather_conjunction = "";
+		if ($_fctcode!=$_fctcode_next)
+		{
+			$msg_2 = self::$weatherMsg2[$_fctcode_next][0];
+			$weather_conjunction = self::$weatherConjunction[self::$weatherMsg1[$_fctcode][1]][self::$weatherMsg1[$_fctcode_next][1]];
+		}
 
 		$msg_3 = self::$lightMessage[$_light_code];
-		
-		$weather_conjunction = self::$weatherConjunction[self::$weatherMsg1[$_fctcode][1]][self::$weatherMsg1[$_fctcode_next][1]];
 		$light_conjunction = self::$lightConjunction[$_light_code][self::$weatherMsg1[$_fctcode_next][1]];
 		
-		return $msg_1 . $weather_conjunction . $msg_2 . $light_conjunction . $msg_3;	
+		return $msg_1 . $weather_conjunction . $msg_2 . $light_conjunction . $msg_3 .".";	
 	}
 	
 }
