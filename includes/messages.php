@@ -42,8 +42,8 @@ class wtdMessage
 {
 
 	private static $weatherMsg1 =  array ( 0,
-									array ( "Looks great" , 1 ), // 1
-									array ( "Looks great" , 1 ), // 2
+									array ( "Weather looks fine" , 1 ), // 1
+									array ( "Weather looks fine" , 1 ), // 2
 									array ( "Looks a bit cloudy" , 0 ), // 3
 									array ( "Looks a bit cloudy" , 0 ), // 4
 									array ( "Doesn't looks great" , 0 ), // 5
@@ -70,7 +70,7 @@ class wtdMessage
 	
 	private static $weatherMsg2 =  array ( 0,
 									array ( " should be nice later" , 1 ), // 1
-									array ( " should be nice later" , 0 ), // 2
+									array ( " should be nice later" , 1 ), // 2
 									array ( " a little cloudy later" , 0 ), // 3
 									array ( " a little cloudy later" , 0 ), // 4
 									array ( " a bit misty later" , 0 ), // 5
